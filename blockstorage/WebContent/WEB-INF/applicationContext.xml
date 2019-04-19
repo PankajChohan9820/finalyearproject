@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+	<!-- <task:annotation-driven /> -->
+	<!-- <context:annotation-config /> -->
+	<!-- <context:component-scan base-package="main.java.com.saasintegrator" /> -->	
+	<!-- <mvc:annotation-driven />
+	<beans:bean id="userDetailsService" class="main.java.com.saasintegrator.service.UserDetailsServiceImpl">
+	</beans:bean>
+ -->	
+ <http auto-config="true">
+
+		<intercept-url pattern="/appstore.html" filters="none" />
+		<intercept-url pattern="/email.html" filters="none" />
+		<intercept-url pattern="/login.html" filters="none" />
+		<intercept-url pattern="/productdetail.html" filters="none" />
+		<intercept-url pattern="/Registration.html" filters="none" />
+		<intercept-url pattern="/regsuccess.html" filters="none" />
+		<intercept-url pattern="/forgotpassword.html" filters="none" />
+		<intercept-url pattern="/checkUser.html" filters="none" />
+		<intercept-url pattern="/verification.html" filters="none" />
+		<intercept-url pattern="/changepasswordsuccess.html" filters="none" />
+		<intercept-url pattern="/images/**" filters="none" />
+		<intercept-url pattern="/scripts/**" filters="none" />
+		<intercept-url pattern="/themes/**" filters="none" />
+		<intercept-url pattern="/js/**" filters="none" />
+		<intercept-url pattern="/img/**" filters="none" />
+		<intercept-url pattern="/processblocktransaction.html" filters="none" />
+
+
+		<intercept-url pattern="/home.html"
+			access="ROLE_USER,ROLE_ADMIN" />
+			
+		<intercept-url pattern="/adminhome.html" access="ROLE_ADMIN" />
+		<intercept-url pattern="/viewallservicerequest.html" access="ROLE_ADMIN" />
+		<intercept-url pattern="/viewregistrationrequests.html" access="ROLE_ADMIN" />
+		<intercept-url pattern="/addbranch.html" access="ROLE_ADMIN" />
+		
+		<intercept-url pattern="/addbenificiary.html" access="ROLE_USER" />
+		<intercept-url pattern="/confirmbeneficiary.html" access="ROLE_USER" />
+		<intercept-url pattern="/moneytransfer.html" access="ROLE_USER" />
+		<intercept-url pattern="/otpgeneration.html" access="ROLE_USER" />
+		<intercept-url pattern="/servicerequest.html" access="ROLE_USER" />
+		
+		<intercept-url pattern="/viewservicehistory.html" access="ROLE_ADMIN" />
+		<intercept-url pattern="/viewmytransactions.html" access="ROLE_USER" />
+		
+		<form-login login-page="/login.html" default-target-url="/viewrecords.html"
+			always-use-default-target="true" authentication-failure-url="/login.html?auth=fail" />
+		<logout logout-url="/j_spring_security_logout"
+			logout-success-url="/logout.html"
+			invalidate-session="true" />
+		<session-management invalid-session-url="/login.html" session-fixation-protection="migrateSession"/>
+	</http>
+
+	
+	
+	<beans:bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<beans:property name="providers">
+			<beans:list>
+				<beans:ref bean="daoAuthenticationProvider" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="userDetailsService">
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>	
